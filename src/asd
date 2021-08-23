@@ -1,0 +1,28 @@
+    <form onSubmit={handleSubmit} className={classes.form} autoComplete="off">
+<select onChange={handleChangeRating}>
+        <option disabled> select rating </option>
+        <option> g </option>
+        <option> pg </option>
+        <option> pg-13 </option>
+        <option> r </option>
+      </select>
+      <select onChange={handleChangeLanguage}>
+        <option disabled> select language </option>
+        <option> es </option>
+        <option> pt </option>
+        <option> id </option>
+        <option> fr </option>
+        <option> ar </option>
+        <option> tr </option>
+        <option> th </option>
+        <option> vi </option>
+        <option> de </option>
+        <option> it </option>
+        <option> ja </option>
+        <option> ru </option>
+        <option> ko </option>
+        <option> pl </option>
+        <option> nl </option>
+        <option> ro </option>
+      </select>
+    </form>

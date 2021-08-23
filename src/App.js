@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Home from './pages/Home'
+import Search from './pages/Search'
+import Detail from './pages/Detail'
+import Error404 from './pages/Error404'
+import Header from "./components/Header";
+import theme from './ThemeConfig'
+import { GifsContextProvider } from './context/GifsContext'
 
-function App() {
+import { ThemeProvider } from '@material-ui/core/styles'
+
+import { Route, Switch } from 'wouter'
+
+
+function App() {  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GifsContextProvider>
+      <Header />
+      <Switch >
+        <Route path="/" component={Home} />
+        <Route path="/gifs/:keyword/:rating?/:language?" component={Search} />
+        <Route path="/detail/:id" component={Detail} />
+        <Route component={Error404}/>
+      </Switch>
+      </GifsContextProvider>
+    </ThemeProvider>
   );
 }
 
