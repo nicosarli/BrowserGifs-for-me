@@ -21,8 +21,6 @@ const ListOfGifs = ({ gifs }) => {
   const classes = useStyles();
   const mediaQuery = useWidth()
 
-  console.log(mediaQuery)
-
   return (
     mediaQuery === 'xs'
       ?

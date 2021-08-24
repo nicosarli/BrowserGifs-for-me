@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 
 import { useLocation } from 'wouter'
 
@@ -36,19 +36,55 @@ const useStyles = makeStyles({
   }
 })
 
+const initialState = {
+  keyword: '',
+  rating: 'g',
+  language: 'en',
+}
+
+const ACTIONS = {
+  UPDATE_KEYWORD: 'update_keyword',
+  UPDATE_RATING: 'update_rating',
+  UPDATE_LANGUAGE: 'update_language',
+}
+
+const reducer = (state, action) => {
+  switch(action.type)
+  {
+    case ACTIONS.UPDATE_KEYWORD:
+      return {
+        ...state,
+        keyword: action.payload,
+      }
+
+    case ACTIONS.UPDATE_RATING:
+      return {
+        ...state,
+        rating: action.payload
+      }
+    case ACTIONS.UPDATE_LANGUAGE:
+      return {
+        ...state,
+        language: action.payload
+      }
+    default: 
+        return state
+  }
+}
+
 const FormSearch = () => {
   const classes = useStyles()
 
-  const [keyword, setKeyword] = useState('')
+  const [state, dispatch] = useReducer(reducer, initialState)
+
   const [ , setLocation] = useLocation();
-  const [rating, setRating] = useState('g')
-  const [language, setLanguage] = useState('en')
-
+  
   const mediaQuery = useWidth()
-
+  
+  const { keyword, rating, language } = state
 
   const handleChange = (evt) => {
-    setKeyword(evt.target.value)
+    dispatch({ type: ACTIONS.UPDATE_KEYWORD, payload: evt.target.value })
   }
   
   const handleSubmit = (evt) => {
@@ -57,11 +93,11 @@ const FormSearch = () => {
   }
 
   const handleChangeRating = (evt) => {
-    setRating(evt.target.value)
+    dispatch({ type: ACTIONS.UPDATE_RATING, payload: evt.target.value })
   }
 
   const handleChangeLanguage = (evt) => {
-    setLanguage(evt.target.value)
+    dispatch({ type: ACTIONS.UPDATE_LANGUAGE, payload: evt.target.value })
   }
 
   return (
