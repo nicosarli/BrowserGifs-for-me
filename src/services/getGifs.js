@@ -17,7 +17,7 @@ const fromApiResponseToGifs = (apiResponse) => {
   const { data } = apiResponse
   const gifs = data.map(image => {
     const { id, images, title } = image
-    const { url } = images.downsized_medium
+    const { url } = images.original
     return { images, title, id, url }
   })
   return gifs

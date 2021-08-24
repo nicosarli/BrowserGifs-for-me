@@ -5,7 +5,21 @@ import { useLocation } from 'wouter'
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, FormControl, TextField, Select, MenuItem, InputLabel } from '@material-ui/core';
 
+import useWidth from "../../hooks/useWidth";
+
 const useStyles = makeStyles({
+  formXs: {
+    padding: '30px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    alignItems: 'flex-end',
+    background: '#f996',
+  },
+  ButtonMQ: {
+    width: '100%'
+  },
   form: {
     padding: '30px',
     display: 'flex',
@@ -30,6 +44,8 @@ const FormSearch = () => {
   const [rating, setRating] = useState('g')
   const [language, setLanguage] = useState('en')
 
+  const mediaQuery = useWidth()
+
 
   const handleChange = (evt) => {
     setKeyword(evt.target.value)
@@ -49,7 +65,7 @@ const FormSearch = () => {
   }
 
   return (
-    <div className={classes.form}>
+    <div className={mediaQuery === 'xs' ? classes.formXs : classes.form}>
       <FormControl onSubmit={handleSubmit} >
         <TextField
             className={classes.textFieldFrom}
@@ -99,7 +115,7 @@ const FormSearch = () => {
               <MenuItem value='ja'> ja </MenuItem>
               </Select>
         </FormControl>
-          <Button color="secondary" variant="contained" onClick={handleSubmit}>
+          <Button color="secondary" variant="contained" onClick={handleSubmit} className={mediaQuery === 'xs' ? classes.ButtonMQ : null}>
             Search a gifs...
           </Button>
   </div>

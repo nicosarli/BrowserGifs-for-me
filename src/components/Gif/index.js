@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     height: '1.3em',
   },
   imageListItem: {
-    
+    objectFit: 'none'
   },
 }));
 
@@ -33,7 +33,7 @@ const Gif = ({title, url, id}) => {
 
   return (
       <>
-        <img src={url} alt={title} width='100%' height='100%' className={classes.ImageListItem}/>
+        <img src={url} alt={title}  width='100%' height='100%' className={classes.ImageListItem}/>
         <ImageListItemBar
           title={title}
           actionIcon={
@@ -42,7 +42,7 @@ const Gif = ({title, url, id}) => {
             color='secondary' 
             onClick={() => { setLocation(`/detail/${id}`) }} 
             >
-              <InfoIcon className={classes.icon}/>
+            <InfoIcon className={classes.icon}/>
             </IconButton>
           }
           />

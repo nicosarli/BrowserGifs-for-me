@@ -14,9 +14,12 @@ const useStyles = makeStyles(() => ({
     background: "#f999",
   },
   cardContent: {
-    background: "#f996",
     textAlign: "center",
   },
+  pageContent: {
+    height: '100vh',
+    background: "#f996",
+  }
 }));
 
 const Detail = ({ params }) => {
@@ -31,7 +34,7 @@ const Detail = ({ params }) => {
         <title> GIPHY || Detail of {gif.title} </title>
         <meta name="description" content="Detail of the gif" />
       </Helmet>
-      <Card>
+      <Card className={classes.pageContent}>
         <CardMedia
           className={classes.cardMedia}
           component="img"
