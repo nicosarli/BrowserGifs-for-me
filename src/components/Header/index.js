@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     margin: 'auto',
     fontWeight: 'bold',
-    fontSize: '4em',
+    fontSize: '2.5em',
   },
   title: {
     fontWeight: '500'
@@ -30,21 +30,48 @@ const Header = () => {
   const classes = useStyles();
   const [location, setLocation] = useLocation()
 
-  const handleClick = () => {
+  const navegationToHome = () => {
     setLocation('/')
+  }
+
+  const navegationToRegister = () => {
+    setLocation('/register')
+  }
+
+  const navegationToLogin = () => {
+    setLocation('/login')
   }
   
   return (
     <AppBar position="static" className={classes.headerContent}>
       <Toolbar className={classes.ToolbarContent}>
-        <Typography variant="h1" color="secondary" className={classes.title}>Giphy</Typography>
-        {
-          location !== '/'
+        <div>
+          <Typography variant="h1" color="secondary" className={classes.title}>Giphy</Typography>
+        </div>
+        
+        <div>
+          {
+            location !== '/register'
             ?
-            <Button onClick={handleClick} > <HomeIcon color='secondary' className={classes.buttonIcon} /> </Button>
+            <Button color="secondary" onClick={navegationToRegister}> Register </Button>
             :
             null
-        }
+          }
+          {
+            location !== '/login'
+            ?
+              <Button color="secondary" onClick={navegationToLogin}> Login </Button>
+              :
+              null
+          }
+          {
+            location !== '/'
+              ?
+              <Button onClick={navegationToHome} > <HomeIcon color='secondary' className={classes.buttonIcon} /> </Button>
+              :
+              null
+          }
+        </div>
       </Toolbar>
     </AppBar>
   )
