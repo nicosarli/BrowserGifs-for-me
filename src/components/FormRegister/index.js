@@ -252,8 +252,8 @@ const FormRegister = () => {
         // value={account}
         // error={error}
         value={account}
-        error={accountError[0] || false}
-        helperText={accountError[1] || ""}
+        error={accountError[0]}
+        helperText={accountError[1]}
         onChange={(evt) => {
           const { value } = evt.target;
           dispatch({
@@ -291,7 +291,7 @@ const FormRegister = () => {
           label="Password"
           value={password}
           error={passwordError[0]}
-          helperText={passwordError[1] || ""}
+          helperText={passwordError[1]}
           onChange={(evt) => {
             const { value } = evt.target;
             dispatch({
@@ -315,7 +315,7 @@ const FormRegister = () => {
           }}
         />
         <IconButton
-          disableFocusRipple
+          disableAnimation={true}
           disableRipple
           className={classes.buttonShowPassword}
           onClick={handleChangeShowPassword}
