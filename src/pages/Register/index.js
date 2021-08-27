@@ -7,10 +7,10 @@ const useStyles = makeStyles(() => ({
     background: "#f1f1f1f1",
     display: "flex",
     flexDirection: "column",
-    margin: 'auto auto',
+    margin: '10px auto',
   },
   Fondo: {
-    height: '79.9vh',
+    height: '100%',
     background: '#f99',
     display: 'flex'
   }
