@@ -1,4 +1,7 @@
 import React from 'react';
+
+import useWidth from "../../hooks/useWidth";
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
     background: '#000',
     padding: '7px'
   },
+  ToolbarContentXs: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
   ToolbarContent: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -30,6 +38,8 @@ const Header = () => {
   const classes = useStyles();
   const [location, setLocation] = useLocation()
 
+  const mediaQuery = useWidth()
+
   const navegationToHome = () => {
     setLocation('/')
   }
@@ -44,7 +54,7 @@ const Header = () => {
   
   return (
     <AppBar position="static" className={classes.headerContent}>
-      <Toolbar className={classes.ToolbarContent}>
+      <Toolbar className={mediaQuery === 'xs' ? classes.ToolbarContentXs : classes.ToolbarContent}>
         <div>
           <Typography variant="h1" color="secondary" className={classes.title}>Giphy</Typography>
         </div>

@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import {
   makeStyles,
@@ -196,6 +196,10 @@ const useStyles = makeStyles(() => ({
     top: 0,
     transform: "none",
   },
+  checkboxForm:{
+    display: 'flex',
+    justifyContent: 'center'
+  }
 }));
 
 const handleSubmit = () => {};
@@ -214,8 +218,7 @@ const FormRegister = () => {
     setShowPassword((prevSet) => !prevSet);
   };
 
-  // const [error, setError] = useState(false);
-  // const [helperText, setHelperText] = useState("");
+  // refactorizar el reducer para que todo este en un mismo
 
   const {
     account,
@@ -238,6 +241,96 @@ const FormRegister = () => {
     emailError,
   } = stateErrors;
 
+  useEffect(() => {
+    account === ""
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
+          payload: [false, ""],
+        })
+      : account.includes(" ")
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
+          payload: [true, "Username not accept spacing"],
+        })
+      : account.length < 8
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
+          payload: [true, "Username requerid more of 8 digits"],
+        })
+      : !(includesNumbers(account) && includesLetters(account))
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
+          payload: [true, "User is required letters and numbers"],
+        })
+      : dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
+          payload: [false, ""],
+        });
+  }, [account]);
+
+  useEffect(() => {
+    password === ""
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
+          payload: [false, ""],
+        })
+      : password.includes(" ")
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
+          payload: [true, "Password not accept spacing"],
+        })
+      : password.length < 8
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
+          payload: [true, "Password requerid more of 8 digits"],
+        })
+      : dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
+          payload: [false, ""],
+        });
+  }, [password]);
+
+  useEffect(() => {
+    let expr =
+      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    email === ""
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
+          payload: [false, ""],
+        })
+      : email.includes(" ")
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
+          payload: [true, "Email not accept spacing"],
+        })
+      : !expr.test(email)
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
+          payload: [true, "Email not valid"],
+        })
+      : dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
+          payload: [false, ""],
+        });
+  }, [email]);
+
+  useEffect(() => {
+    phone === ""
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PHONE_ERROR,
+          payload: [false, ""],
+        })
+      : includesNumbers(phone) && phone.length === 9
+      ? dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PHONE_ERROR,
+          payload: [false, ""],
+        })
+      : dispatchErrors({
+          type: ACTIONSOFERRORS.UPDATE_PHONE_ERROR,
+          payload: [true, "Phone not valid"],
+        });
+  }, [phone]);
+
   return (
     <form autoComplete="off" className={classes.root} onSubmit={handleSubmit}>
       <Helmet>
@@ -249,8 +342,6 @@ const FormRegister = () => {
         label="Account"
         name="user"
         id="user"
-        // value={account}
-        // error={error}
         value={account}
         error={accountError[0]}
         helperText={accountError[1]}
@@ -260,26 +351,6 @@ const FormRegister = () => {
             type: ACTIONS.UPDATE_ACCOUNT,
             payload: value,
           });
-
-          account.includes(" ")
-            ? dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
-                payload: [true, "Username not accept spacing"],
-              })
-            : account.length < 8
-            ? dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
-                payload: [true, "Username requerid more of 8 digits"],
-              })
-            : !(includesNumbers(account) && includesLetters(account))
-            ? dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
-                payload: [true, "User is required letters and numbers"],
-              })
-            : dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_ACCOUNT_ERROR,
-                payload: [false, ""],
-              });
         }}
       />
 
@@ -298,24 +369,9 @@ const FormRegister = () => {
               type: ACTIONS.UPDATE_PASSWORD,
               payload: value,
             });
-            password.includes(" ")
-              ? dispatchErrors({
-                  type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
-                  payload: [true, "Password not accept spacing"],
-                })
-              : password.length < 8
-              ? dispatchErrors({
-                  type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
-                  payload: [true, "Password requerid more of 8 digits"],
-                })
-              : dispatchErrors({
-                  type: ACTIONSOFERRORS.UPDATE_PASSWORD_ERROR,
-                  payload: [false, ""],
-                });
           }}
         />
         <IconButton
-          disableAnimation={true}
           disableRipple
           className={classes.buttonShowPassword}
           onClick={handleChangeShowPassword}
@@ -359,31 +415,6 @@ const FormRegister = () => {
             type: ACTIONS.UPDATE_EMAIL,
             payload: value,
           });
-          let expr =
-            /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-          // email.includes(['@' && '.'])
-          //   ? dispatchErrors({
-          //       type: ACTIONS.UPDATE_EMAIL_ERROR,
-          //       payload: [false, ""],
-          //     })
-          //   : dispatchErrors({
-          //       type: ACTIONS.UPDATE_EMAIL_ERROR,
-          //       payload: [true, "Email not valid"],
-          //     });
-          email.includes(" ")
-            ? dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
-                payload: [true, "Email not accept spacing"],
-              })
-            : !expr.test(email)
-            ? dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
-                payload: [true, "Email not valid"],
-              })
-            : dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_EMAIL_ERROR,
-                payload: [false, ""],
-              });
         }}
       />
       <TextField
@@ -409,18 +440,10 @@ const FormRegister = () => {
             type: ACTIONS.UPDATE_PHONE,
             payload: value,
           });
-          includesNumbers(phone) && phone.length === 9
-            ? dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_PHONE_ERROR,
-                payload: [false, ""],
-              })
-            : dispatchErrors({
-                type: ACTIONSOFERRORS.UPDATE_PHONE_ERROR,
-                payload: [true, "Phone not valid"],
-              });
         }}
       />
       <FormControlLabel
+        className={classes.checkboxForm}
         label="Recibed information for this page"
         control={
           <Checkbox
@@ -436,6 +459,7 @@ const FormRegister = () => {
         }
       />
       <FormControlLabel
+        className={classes.checkboxForm}
         label="Accept terms and services"
         control={
           <Checkbox

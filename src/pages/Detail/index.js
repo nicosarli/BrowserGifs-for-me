@@ -1,6 +1,7 @@
 import React from "react";
 
 import useSingleGif from "../../hooks/useSingleGif";
+import useWidth from "../../hooks/useWidth"
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent, CardMedia, Typography } from "@material-ui/core";
@@ -13,6 +14,13 @@ const useStyles = makeStyles(() => ({
     paddingTop: "9px",
     background: "#f999",
   },
+  cardMediaXs: {
+    height: "60vh",
+    objectFit: "cover",
+    paddingTop: "9px",
+    background: "#f999",
+  },
+
   cardContent: {
     textAlign: "center",
   },
@@ -26,6 +34,8 @@ const Detail = ({ params }) => {
   const classes = useStyles();
   const { gif } = useSingleGif({ id: params.id });
 
+  const mediaQuery = useWidth()
+
   if (!gif) return null;
 
   return (
@@ -36,7 +46,7 @@ const Detail = ({ params }) => {
       </Helmet>
       <Card className={classes.pageContent}>
         <CardMedia
-          className={classes.cardMedia}
+          className={mediaQuery === 'xs' ? classes.cardMediaXs : classes.cardMedia}
           component="img"
           image={gif.url}
           title={gif.title}

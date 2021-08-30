@@ -24,7 +24,7 @@ const ListOfGifs = ({ gifs }) => {
   return (
     mediaQuery === 'xs'
       ?
-      <ImageList rowHeight={300} gap={20} cols={1} className={classes.imageList}>
+      <ImageList rowHeight={200} gap={20} cols={1} className={classes.imageList}>
       {gifs?.map(({ id, title, url, ...restOfGifs }) => (
         <ImageListItem key={id} >
           <Gif

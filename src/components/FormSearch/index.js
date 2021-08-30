@@ -16,13 +16,13 @@ import useWidth from "../../hooks/useWidth";
 
 const useStyles = makeStyles({
   formXs: {
-    padding: "30px",
+    padding: "20px",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
     flexWrap: "wrap",
     alignItems: "flex-end",
     background: "#f996",
+    width: '90%'
   },
   ButtonMQ: {
     width: "100%",
